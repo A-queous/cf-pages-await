@@ -88,7 +88,8 @@ export default async function run() {
 function validateAuthInputs(token: string, email: string, key: string) {
   if (token !==  '') {
     return true;
-
+  }
+  
   if (email !== '' && key !== '') {
     return true;
   }
