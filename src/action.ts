@@ -80,16 +80,14 @@ export default async function run() {
     }
   }
 
-  if (Date.now() - startTime < 10000)
-  {
-
+  if (Date.now() - startTime < 10000) { 
+    console.log('CF Pages wait timed out...');
   }
 }
 
 function validateAuthInputs(token: string, email: string, key: string) {
   if (token !==  '') {
     return true;
-  }
 
   if (email !== '' && key !== '') {
     return true;
