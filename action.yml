@@ -24,6 +24,9 @@ inputs:
   commitHash:
     description: 'The commit hash of the commit triggered the target deployment'
     required: true
+  timeout:
+    description: 'Optional timeout config to help manage github action free time'
+    required: false
 outputs:
   id:
     description: 'Deployment ID'

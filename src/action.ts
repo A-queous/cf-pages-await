@@ -9,6 +9,7 @@ let waiting = true;
 // @ts-ignore - Typing GitHub's responses is a pain in the ass
 let ghDeployment;
 let markedAsInProgress = false;
+let startTime = Date.now();
 
 export default async function run() {
   const accountEmail = core.getInput('accountEmail', { required: false, trimWhitespace: true });
@@ -19,6 +20,7 @@ export default async function run() {
   const project = core.getInput('project', { required: true, trimWhitespace: true });
   const token = core.getInput('githubToken', { required: false, trimWhitespace: true });
   const commitHash = core.getInput('commitHash', { required: false, trimWhitespace: true });
+  const timeout = core.getInput('timeout', { required: false, trimWhitespace: true });
 
   // Validate we have either token or both email + key
   if (!validateAuthInputs(apiToken, accountEmail, apiKey)) {
@@ -30,7 +32,7 @@ export default async function run() {
   console.log('Waiting for Pages to finish building...');
   let lastStage = '';
 
-  while (waiting) {
+  while (waiting && (Date.now() - startTime < 10000)) {
     // We want to wait a few seconds, don't want to spam the API :)
     await sleep();
 
@@ -76,6 +78,11 @@ export default async function run() {
         await updateDeployment(token, deployment, latestStage.status === 'success' ? 'success' : 'failure');
       }
     }
+  }
+
+  if (Date.now() - startTime < 10000)
+  {
+
   }
 }
 
